@@ -2,6 +2,8 @@
 
 : ${GIT_CODE_EDITOR:=$(which code)}
 : ${GIT_CODE_FOLDER:="${HOME}/code"}
+: ${GIT_CODE_CLONE_OPT:=""}
+: ${GIT_CODE_PULL_OPT:="--rebase"}
 
 repo="$1"
 
@@ -46,12 +48,12 @@ if [ -e "$dest" ]; then
     if [ -e "$dest/.git" ]; then
         echo "Pulling into '$dest'..."
         cd $dest
-        git pull --rebase && $editor
+        git pull $GIT_CODE_PULL_OPT && $editor
     else 
         echo "fatal: destination path '$dest' already exists and is not a valid git repository."
         exit 128
     fi
 else
     mkdir -p $dest
-    git clone $repo $dest && $editor
+    git clone $GIT_CODE_CLONE_OPT $repo $dest && $editor
 fi
