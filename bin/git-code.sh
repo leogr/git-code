@@ -37,7 +37,7 @@ path=$(echo "$path" | sed -e 's|\.bundle$||' -e 's|\.git$||' -e 's|/$||')
 dest="${GIT_CODE_FOLDER}/$host/$path"
 
 # Check editor 
-if [[ ! -e  $GIT_CODE_EDITOR  ]]; then
+if [[ ! -e  "$GIT_CODE_EDITOR"  ]]; then
     editor="echo No editor found."
 else
     editor="$GIT_CODE_EDITOR $dest"
