@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-: ${GIT_CODE_EDITOR:="code"}
+: ${GIT_CODE_EDITOR:=$(which code)}
 : ${GIT_CODE_FOLDER:="${HOME}/code"}
 
 repo="$1"
@@ -33,18 +33,25 @@ fi
 
 path=$(echo "$path" | sed -e 's|\.bundle$||' -e 's|\.git$||' -e 's|/$||')
 dest="${GIT_CODE_FOLDER}/$host/$path"
-open_editor="$GIT_CODE_EDITOR $dest"
 
+# Check editor 
+if [[ ! -e  $GIT_CODE_EDITOR  ]]; then
+    editor="echo No editor found."
+else
+    editor="$GIT_CODE_EDITOR $dest"
+fi
+
+# Clone (or pull) info destination path then open the editor
 if [ -e "$dest" ]; then
     if [ -e "$dest/.git" ]; then
         echo "Pulling into '$dest'..."
         cd $dest
-        git pull --rebase && $open_editor
+        git pull --rebase && $editor
     else 
         echo "fatal: destination path '$dest' already exists and is not a valid git repository."
         exit 128
     fi
 else
     mkdir -p $dest
-    git clone $repo $dest && $open_editor
+    git clone $repo $dest && $editor
 fi
