@@ -5,6 +5,11 @@
 : ${GIT_CODE_CLONE_OPT:=""}
 : ${GIT_CODE_PULL_OPT:="--rebase"}
 
+if [[ -z "$1" ]]; then
+    echo "usage: git code <repo> [<dir>]"
+    exit 2
+fi
+
 repo="$1"
 
 # Extract destination from repo if user didn't specify one
