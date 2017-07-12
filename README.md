@@ -4,5 +4,5 @@
 ## Install
 
 ```bash
-bash <(curl -fsSL https://git-co.de/install.sh)
+bash <(curl -fsSL https://leogr.github.io/git-code/install.sh)
 ```
